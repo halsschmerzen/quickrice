@@ -35,10 +35,13 @@ def display_main():
     cursor_themes = theme_options.get_available_cursor_themes()
 
     print(gtk_themes)
+    print(icon_themes)
+    print(shell_themes)
+    print(cursor_themes)
 
     if desktop == 'gnome':
         try:
-            theme = GnomeTheme(gtk_theme=random.choice(gtk_themes),icon_theme=random.choice(icon_themes),shell_theme=random.choice(shell_themes), cursor_theme=random.choice(cursor_themes), font='Cantarell', color_scheme='dark')
+            theme = GnomeTheme(gtk_theme=random.choice(gtk_themes),icon_theme=random.choice(icon_themes),shell_theme=shell_themes[0], cursor_theme=random.choice(cursor_themes), font='Cantarell', color_scheme='dark')
             theme.apply_theme()
         except ValueError as e:
             print(f'Error {e}')

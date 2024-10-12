@@ -7,7 +7,7 @@ class GnomeTheme:
         if not icon_theme:
             raise ValueError("Icon theme must not be empty")
         if not shell_theme:
-            raise ValueError("Shell theme must not be empty")
+            pass
         if not cursor_theme:
             raise ValueError("Cursor theme must not be empty")
         if not font:
