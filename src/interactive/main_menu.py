@@ -1,5 +1,5 @@
 from desktop.detect_desktop import return_desktop
-from desktop.gnome_desktop import GnomeTheme
+from desktop.desktops import GnomeTheme, CinnamonTheme
 from interactive.get_files import GnomeThemeOptions
 import random
 
@@ -45,4 +45,15 @@ def display_main():
             theme.apply_theme()
         except ValueError as e:
             print(f'Error {e}')
+
+    if desktop == 'cinnamon':
+        try:
+            theme = CinnamonTheme(gtk_theme=random.choice(gtk_themes),icon_theme=random.choice(icon_themes),shell_theme=shell_themes[0], cursor_theme=random.choice(cursor_themes), font='Cantarell', color_scheme='dark')
+            theme.apply_theme()
+        except ValueError as e:
+            print(f'Error {e}')
+
+    
+
+
 

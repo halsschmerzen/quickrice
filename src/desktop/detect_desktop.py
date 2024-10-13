@@ -8,3 +8,4 @@ def return_desktop():
         return current_desktop.lower()
     
     return 'Could not find current Desktop. Perhaps you are not on Linux?'
+
