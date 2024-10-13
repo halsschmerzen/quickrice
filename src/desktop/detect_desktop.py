@@ -1,4 +1,5 @@
 import os
+from desktop.desktops import GnomeTheme, CinnamonTheme
 
 def return_desktop():
 
@@ -8,4 +9,9 @@ def return_desktop():
         return current_desktop.lower()
     
     return 'Could not find current Desktop. Perhaps you are not on Linux?'
+
+def detect_desktop_class():
+    desktop = return_desktop()
+
+    
 
