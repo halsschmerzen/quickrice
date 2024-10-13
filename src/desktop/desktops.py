@@ -2,17 +2,6 @@ import os
 
 class DesktopTheme:
     def __init__(self, gtk_theme, icon_theme, cursor_theme, font, color_scheme):
-        if not gtk_theme:
-            raise ValueError("GTK theme must not be empty")
-        if not icon_theme:
-            raise ValueError("Icon theme must not be empty")
-        if not cursor_theme:
-            raise ValueError("Cursor theme must not be empty")
-        if not font:
-            raise ValueError("Font must not be empty")
-        if color_scheme not in ["light", "dark"]:
-            raise ValueError("Color scheme must be either 'light' or 'dark'")
-        
         self.gtk_theme = gtk_theme
         self.icon_theme = icon_theme
         self.cursor_theme = cursor_theme

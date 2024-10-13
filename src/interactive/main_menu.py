@@ -1,8 +1,6 @@
 from desktop.detect_desktop import return_desktop
-from desktop.desktops import GnomeTheme, CinnamonTheme
-from interactive.get_files import GnomeThemeOptions
-from interactive.create_desktop import create_new_rice
-import random
+from interactive.create.create_desktop import create_new_rice, read_theme
+from interactive.apply.apply_theme import list_available_themes, choose_theme
 
 def banner():
 
@@ -28,9 +26,9 @@ def display_main():
     print(f'You are currently on {desktop}. ')
 
     # Example usage:
-    create_new_rice()
-
+    #create_new_rice()
+    #print(read_theme('MagicArrow2'))
     
-
+    choose_theme()
 
 

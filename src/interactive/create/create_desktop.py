@@ -1,12 +1,14 @@
 from desktop.detect_desktop import return_desktop
 from desktop.desktops import GnomeTheme
-from interactive.get_files import GnomeThemeOptions
+from interactive.create.get_files import GnomeThemeOptions
 import os, json
 
-def create_new_rice():
-    current_desktop = return_desktop
+config_dir = os.path.expanduser('~/.config/quickrice/rices')
 
-    if current_desktop == 'gnome':
+def create_new_rice():
+    current_desktop = return_desktop()
+
+    if current_desktop == 'kde':
         create_gnome_theme()
     else:
         print('Currently not supported!')
@@ -26,15 +28,38 @@ def create_gnome_theme():
     selected_cursor_theme = theme_options.choose_from_list(cursor_themes, "Cursor")
 
     selections = {
+        "desktop" : "gnome",
         "gtk_theme": selected_gtk_theme,
         "icon_theme": selected_icon_theme,
         "shell_theme": selected_shell_theme,
         "cursor_theme": selected_cursor_theme,
     }
 
-    rice_name = str(input('Enter the rice name. '))
+    while True:
+        theme_name = str(input('Enter the rice name: '))
+        
+        if os.path.exists(f'{config_dir}/{theme_name}.json'):
+            print('Theme with that name already exists!')
+        else:
+            write_to_json(selections, theme_name)
+            break
+         
 
-    with open(f"{rice_name}.json", "w") as json_file:
-        json.dump(selections, json_file, indent=4)
+def write_to_json(theme_properties: dict, name):
+    
+    json_file_path = os.path.join(config_dir, f'{name}.json')
 
-    print(f"Selected themes saved to '{rice_name}.json'.")
+    os.makedirs(config_dir, exist_ok=True)
+
+    with open(json_file_path, 'w') as json_file:
+        json.dump(theme_properties, json_file, indent=4)
+
+    print(f'Written data to: {json_file_path}')
+
+def read_theme(name):
+    json_file_path = os.path.join(config_dir, f'{name}.json')
+
+    with open(json_file_path, 'r') as json_file:
+        data = json.load(json_file)
+
+    return data
