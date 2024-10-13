@@ -98,6 +98,12 @@ class GnomeTheme(DesktopTheme):
     def set_shell_theme(self, theme_name):
         os.system(f"gsettings set org.gnome.shell.extensions.user-theme name {theme_name}")
 
+    def set_wallpaper(self, wallpaper_path, scheme):
+        if scheme == "dark":
+            os.system(f"gsettings set org.gnome.desktop.background picture-uri-dark 'file://{wallpaper_path}'")
+        else:
+            os.system(f"gsettings set org.gnome.desktop.background picture-uri 'file://{wallpaper_path}'")
+
     def reset_to_default(self):
         self.gtk_theme = "Adwaita"
         self.icon_theme = "Adwaita"

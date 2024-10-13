@@ -52,6 +52,9 @@ def choose_theme():
             selected_icon_theme = theme_data.get('icon_theme')
             selected_shell_theme = theme_data.get('shell_theme')
             selected_cursor_theme = theme_data.get('cursor_theme')
+            selected_font = theme_data.get('font')
+            selected_color = theme_data.get('color_scheme')
+            selected_background = theme_data.get('background')
 
             gnome_theme = GnomeTheme(selected_gtk_theme,selected_icon_theme,selected_cursor_theme,None,None)
 
@@ -60,6 +63,14 @@ def choose_theme():
             gnome_theme.set_icon_theme(selected_icon_theme)
             gnome_theme.set_shell_theme(selected_shell_theme)
             gnome_theme.set_cursor_theme(selected_cursor_theme)
+            gnome_theme.set_color_scheme(selected_color)
+            if selected_font is not None:
+                gnome_theme.set_font(selected_font)
+            
+            if selected_background is not None:
+                gnome_theme.set_wallpaper(selected_background, selected_color)
+            
+
 
 
     except FileNotFoundError:

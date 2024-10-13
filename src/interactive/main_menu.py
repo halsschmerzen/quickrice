@@ -21,19 +21,20 @@ def banner():
 def display_main():
     print(banner())
 
-    desktop = return_desktop()
+    while True:
+        desktop = return_desktop()
 
-    print(f'You are currently on {desktop}. ')
+        print(f'You are currently on {desktop}. ')
 
     # Example usage:
     #create_new_rice()
     #print(read_theme('MagicArrow2'))
     
-    option = int(input('Choose your option: 1- gen rice 2- apply rice'))
+        option = int(input('Choose your option: 1- gen rice 2- apply rice'))
 
-    if option==1:
-        create_new_rice()
-    elif option == 2:
-        choose_theme()
+        if option==1:
+            create_new_rice()
+        elif option == 2:
+            choose_theme()
 
 

@@ -8,7 +8,7 @@ config_dir = os.path.expanduser('~/.config/quickrice/rices')
 def create_new_rice():
     current_desktop = return_desktop()
 
-    if current_desktop == 'kde':
+    if current_desktop == 'gnome':
         create_gnome_theme()
     else:
         print('Currently not supported!')
@@ -16,6 +16,8 @@ def create_new_rice():
 
 def create_gnome_theme():
     theme_options = GnomeThemeOptions()
+
+    print(theme_options.check_if_shell_extension())
 
     gtk_themes = theme_options.get_available_gtk_themes()
     icon_themes = theme_options.get_available_icon_themes()
@@ -26,6 +28,26 @@ def create_gnome_theme():
     selected_icon_theme = theme_options.choose_from_list(icon_themes, "Icon")
     selected_shell_theme = theme_options.choose_from_list(shell_themes, "Shell")
     selected_cursor_theme = theme_options.choose_from_list(cursor_themes, "Cursor")
+    selected_font = None
+    selected_color_scheme = 'dark'
+    selected_background = None
+
+    font_input = str(input('Do you want to set a Font? [y/n]')).lower
+
+    if font_input == 'y':
+        font_value = str(input('Please enter the name of the font you want to apply: \n'))
+        selected_font = font_value
+
+    color_input = str(input('Do you want the preferred color scheme to be light? [Default Value: Dark] [y/n]')).lower
+    if color_input == 'y':
+        selected_color_scheme = 'light'
+            
+    bg_input = str(input('Do you want to set a matching wallpaper? [y/n]'))
+    if bg_input == 'y':
+        background_path = str(input('Enter the path to the desired wallpaper: \n'))
+        selected_background = background_path
+    
+
 
     selections = {
         "desktop" : "gnome",
@@ -33,6 +55,9 @@ def create_gnome_theme():
         "icon_theme": selected_icon_theme,
         "shell_theme": selected_shell_theme,
         "cursor_theme": selected_cursor_theme,
+        "font": selected_font,
+        "color_scheme": selected_color_scheme,
+        "background": selected_background
     }
 
     while True:
