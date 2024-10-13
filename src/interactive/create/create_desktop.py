@@ -1,6 +1,6 @@
 from desktop.detect_desktop import return_desktop
 from desktop.desktops import GnomeTheme
-from interactive.create.get_files import GnomeThemeOptions
+from interactive.create.desktop_options.gnome_theme import GnomeThemeOptions
 import os, json
 
 config_dir = os.path.expanduser('~/.config/quickrice/rices')

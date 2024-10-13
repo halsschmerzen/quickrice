@@ -4,12 +4,15 @@ class ThemeOptions:
     def __init__(self, theme_dirs):
         self.theme_dirs = theme_dirs
     
-    def get_available_themes(self, directories):
-        """Fetches available themes from the specified directories."""
+    def get_available_themes(self, directories, validation_func=None):
+        """Fetches available themes from the specified directories and validates them."""
         themes = set()
         for directory in directories:
             if os.path.exists(directory):
-                themes.update(next(os.walk(directory))[1])  # Get directory names
+                for theme in next(os.walk(directory))[1]:  # Get directory names
+                    theme_path = os.path.join(directory, theme)
+                    if validation_func is None or validation_func(theme_path):
+                        themes.add(theme)
         return list(themes)
 
     def choose_from_list(self, theme_list, theme_type):
@@ -31,40 +34,3 @@ class ThemeOptions:
             except ValueError:
                 print("Invalid input. Please enter a number.")
 
-class GnomeThemeOptions(ThemeOptions):
-    def __init__(self):
-        gtk_theme_dirs = ['/usr/share/themes', os.path.expanduser('~/.themes')]
-        icon_theme_dirs = ['/usr/share/icons', os.path.expanduser('~/.icons')]
-        super().__init__(gtk_theme_dirs + icon_theme_dirs)
-        self.gtk_theme_dirs = gtk_theme_dirs
-        self.icon_theme_dirs = icon_theme_dirs
-    
-    def get_available_gtk_themes(self):
-        """Fetches available GTK themes from system and user directories."""
-        return self.get_available_themes(self.gtk_theme_dirs)
-
-    def get_available_icon_themes(self):
-        """Fetches available icon themes from system and user directories."""
-        return self.get_available_themes(self.icon_theme_dirs)
-
-    def get_available_shell_themes(self):
-        """Fetches available GNOME Shell themes (themes with 'gnome-shell' directory)."""
-        shell_themes = set()
-        for directory in self.gtk_theme_dirs:  # Shell themes are typically within GTK theme directories
-            if os.path.exists(directory):
-                for theme in next(os.walk(directory))[1]:
-                    theme_path = os.path.join(directory, theme, 'gnome-shell')
-                    if os.path.exists(theme_path):
-                        shell_themes.add(theme)
-        return list(shell_themes)
-
-    def get_available_cursor_themes(self):
-        """Fetches available cursor themes from icon directories (cursors are stored with icons)."""
-        cursor_themes = set()
-        for directory in self.icon_theme_dirs:  # Cursor themes are stored in icon directories
-            if os.path.exists(directory):
-                for theme in next(os.walk(directory))[1]:
-                    theme_path = os.path.join(directory, theme, 'cursors')
-                    if os.path.exists(theme_path):
-                        cursor_themes.add(theme)
-        return list(cursor_themes)
