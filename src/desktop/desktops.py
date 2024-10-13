@@ -95,6 +95,9 @@ class GnomeTheme(DesktopTheme):
         else:
             os.system("gsettings set org.gnome.desktop.interface color-scheme prefer-light")
 
+    def set_shell_theme(self, theme_name):
+        os.system(f"gsettings set org.gnome.shell.extensions.user-theme name {theme_name}")
+
     def reset_to_default(self):
         self.gtk_theme = "Adwaita"
         self.icon_theme = "Adwaita"

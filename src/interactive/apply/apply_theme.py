@@ -48,16 +48,17 @@ def choose_theme():
             theme_data = json.load(json_file)
 
             # Extract relevant values from the JSON data
-            selected_gtk_theme = theme_data.get('gtk_theme', 'DefaultGTKTheme')  # Provide default values if key is missing
-            selected_icon_theme = theme_data.get('icon_theme', 'DefaultIconTheme')
-            selected_shell_theme = theme_data.get('shell_theme', 'DefaultShellTheme')
-            selected_cursor_theme = theme_data.get('cursor_theme', 'DefaultCursorTheme')
+            selected_gtk_theme = theme_data.get('gtk_theme')  
+            selected_icon_theme = theme_data.get('icon_theme')
+            selected_shell_theme = theme_data.get('shell_theme')
+            selected_cursor_theme = theme_data.get('cursor_theme')
 
             gnome_theme = GnomeTheme(selected_gtk_theme,selected_icon_theme,selected_cursor_theme,None,None)
 
             # Apply the selected themes using GnomeTheme methods
             gnome_theme.set_gtk_theme(selected_gtk_theme)
             gnome_theme.set_icon_theme(selected_icon_theme)
+            gnome_theme.set_shell_theme(selected_shell_theme)
             gnome_theme.set_cursor_theme(selected_cursor_theme)
 
 
