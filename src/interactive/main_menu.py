@@ -29,6 +29,11 @@ def display_main():
     #create_new_rice()
     #print(read_theme('MagicArrow2'))
     
-    choose_theme()
+    option = int(input('Choose your option: 1- gen rice 2- apply rice'))
+
+    if option==1:
+        create_new_rice()
+    elif option == 2:
+        choose_theme()
 
 
