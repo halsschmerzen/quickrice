@@ -33,7 +33,7 @@ def list_available_themes():
     return themes_for_this_desktop
 
 
-def choose_theme():
+def choose_gnome_theme():
     available_themes = list_available_themes()
 
     # Prompt the user to select a theme
@@ -66,6 +66,8 @@ def choose_theme():
             gnome_theme.set_color_scheme(selected_color)
             if selected_font is not None:
                 gnome_theme.set_font(selected_font)
+            else:
+                gnome_theme.set_font('Cantarell')
             
             if selected_background is not None:
                 gnome_theme.set_wallpaper(selected_background, selected_color)

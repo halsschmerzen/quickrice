@@ -32,13 +32,13 @@ def create_gnome_theme():
     selected_color_scheme = 'dark'
     selected_background = None
 
-    font_input = str(input('Do you want to set a Font? [y/n]')).lower
+    font_input = str(input('Do you want to set a Font? [y/n]'))
 
     if font_input == 'y':
         font_value = str(input('Please enter the name of the font you want to apply: \n'))
         selected_font = font_value
 
-    color_input = str(input('Do you want the preferred color scheme to be light? [Default Value: Dark] [y/n]')).lower
+    color_input = str(input('Do you want the preferred color scheme to be light? [Default Value: Dark] [y/n]'))
     if color_input == 'y':
         selected_color_scheme = 'light'
             

@@ -1,6 +1,6 @@
 from desktop.detect_desktop import return_desktop
 from interactive.create.create_desktop import create_new_rice, read_theme
-from interactive.apply.apply_theme import list_available_themes, choose_theme
+from interactive.apply.apply_theme import list_available_themes, choose_gnome_theme
 
 def banner():
 
@@ -35,6 +35,6 @@ def display_main():
         if option==1:
             create_new_rice()
         elif option == 2:
-            choose_theme()
+            choose_gnome_theme()
 
 
