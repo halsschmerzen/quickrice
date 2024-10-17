@@ -1,6 +1,7 @@
 from desktop.detect_desktop import return_desktop
 from interactive.create.create_desktop import create_new_rice, read_theme
-from interactive.apply.apply_theme import list_available_themes, choose_gnome_theme
+from interactive.apply.apply_theme import list_available_themes, choose_gnome_theme, create_config_directory
+from desktop.extensions.check_system import return_distro
 
 def banner():
 
@@ -20,21 +21,20 @@ def banner():
 
 def display_main():
     print(banner())
+    create_config_directory()
 
     while True:
         desktop = return_desktop()
+        print(return_distro())
 
         print(f'You are currently on {desktop}. ')
-
-    # Example usage:
-    #create_new_rice()
-    #print(read_theme('MagicArrow2'))
-    
-        option = int(input('Choose your option: 1- gen rice 2- apply rice'))
+        option = int(input('Choose your option:\n1 - gen rice\n2- apply rice'))
 
         if option==1:
             create_new_rice()
         elif option == 2:
+            #This needs to be mapped according to the current desktop.
+            #For now only GNOME is supported so this is fine.
             choose_gnome_theme()
 
 

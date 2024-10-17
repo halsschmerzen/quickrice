@@ -7,13 +7,22 @@ import os, json
 
 config_dir = os.path.expanduser('~/.config/quickrice/rices')
 
+def create_config_directory():
+    if not os.path.exists(config_dir):
+        os.makedirs(config_dir)
+
+
 def list_available_themes():
 
     themes_for_this_desktop = []
 
-    current_desktop = 'gnome'
+    current_desktop = return_desktop()
 
-    #Open every file and check for the identifier of the desktop
+    #Check if directory is empty
+    if len(os.listdir(config_dir))==0:
+        print('You havent created any themes yet!')
+        return themes_for_this_desktop
+
     for filename in os.listdir(config_dir):
         if filename.endswith('.json'):
             path = os.path.join(config_dir, filename)
@@ -38,6 +47,9 @@ def choose_gnome_theme():
 
     # Prompt the user to select a theme
     selected_theme_name = choose_from_list(available_themes)
+
+    if selected_theme_name is None:
+        return 'You have not created any themes yet!\n'
 
     # Construct the path to the selected theme's JSON file
     selected_theme_path = os.path.join(config_dir, selected_theme_name + '.json')
@@ -72,9 +84,6 @@ def choose_gnome_theme():
             if selected_background is not None:
                 gnome_theme.set_wallpaper(selected_background, selected_color)
             
-
-
-
     except FileNotFoundError:
         print(f'The selected theme file does not exist: {selected_theme_path}')
     except json.JSONDecodeError:
