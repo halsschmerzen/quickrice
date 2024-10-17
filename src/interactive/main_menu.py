@@ -1,7 +1,12 @@
 from desktop.detect_desktop import return_desktop
 from interactive.create.create_desktop import create_new_rice, read_theme
 from interactive.apply.apply_theme import list_available_themes, choose_gnome_theme, create_config_directory
-from desktop.extensions.check_system import check_package_manager
+from desktop.extensions.check_system import detect_package_manager, collect_necessary_packages
+from desktop.extensions.download_extensions import check_package_installed, install_necessary_packages
+
+package_manager, install_command = detect_package_manager()
+necessary_packages = collect_necessary_packages(package_manager)
+packages_needed = False 
 
 def banner():
 
@@ -18,14 +23,30 @@ def banner():
         change your rice from the CLI.                               
     '''
 
-
 def display_main():
+    global package_manager, necessary_packages
     print(banner())
     create_config_directory()
 
+    # Check for installed packages and collect the ones that are not installed
+    packages_to_install = []
+    
+    for pkg in necessary_packages:  # necessary_packages should be defined beforehand
+        if not check_package_installed(pkg, package_manager):
+            packages_to_install.append(pkg)
+
+    if packages_to_install:
+        print(f"Installing necessary packages: {packages_to_install}")
+        install_necessary_packages(packages_to_install)
+    else:
+        print("All necessary packages are already installed.")
+
+
+
+
     while True:
         desktop = return_desktop()
-        package_manager = check_package_manager()
+        package_manager = detect_package_manager()
 
         print(f'Current Package Manager {package_manager}')
 
