@@ -19,7 +19,7 @@ def collect_necessary_packages(manager):
     """Return the list of necessary packages for the detected package manager."""
     # Define the necessary packages for each package manager
     package_map = {
-    'apt': ['gnome-tweaks', 'gnome-shell-extensions'],
+    'apt': ['gnome-tweaks', 'gnome-shell-extensions', 'dconf-cli'],
     'dnf': ['gnome-tweaks', 'gnome-shell-extension-user-theme'],
     'pacman': ['gnome-tweaks', 'gnome-shell-extensions'],
     'zypper': ['gnome-tweaks', 'gnome-shell-extensions']

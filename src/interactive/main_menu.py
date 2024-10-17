@@ -46,9 +46,6 @@ def display_main():
 
     while True:
         desktop = return_desktop()
-        package_manager = detect_package_manager()
-
-        print(f'Current Package Manager {package_manager}')
 
         print(f'You are currently on {desktop}. ')
         option = int(input('Choose your option:\n1 - gen rice\n2- apply rice'))

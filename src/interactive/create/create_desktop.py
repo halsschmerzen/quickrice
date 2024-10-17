@@ -1,7 +1,7 @@
 from desktop.detect_desktop import return_desktop
 from desktop.desktops import GnomeTheme
 from interactive.create.desktop_options.gnome_theme import GnomeThemeOptions
-import os, json
+import os, json, subprocess
 
 config_dir = os.path.expanduser('~/.config/quickrice/rices')
 
@@ -13,9 +13,38 @@ def create_new_rice():
     else:
         print('Currently not supported!')
 
+def is_user_themes_enabled():
+    try:
+        # Read the current state of the User Themes extension
+        result = subprocess.run(
+            ["dconf", "read", "/org/gnome/shell/extensions/user-theme/enable"],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        return result.stdout.strip() == "true"
+    except subprocess.CalledProcessError as e:
+        print(f"An error occurred while checking the status: {e}")
+        return False
+
+def enable_user_themes():
+    if is_user_themes_enabled():
+        print("User Themes extension is already enabled.")
+        return
+
+    user_input = input("User Themes extension is not enabled. Do you want to enable it? (yes/no): ").strip().lower()
+    
+    if user_input in ['yes', 'y']:
+        os.system("dconf write /org/gnome/shell/extensions/user-theme/enable true")
+        print("User Themes extension has been enabled.")
+    else:
+        return
 
 def create_gnome_theme():
     theme_options = GnomeThemeOptions()
+
+    if not is_user_themes_enabled():
+        enable_user_themes()
 
     print(theme_options.check_if_shell_extension())
 
