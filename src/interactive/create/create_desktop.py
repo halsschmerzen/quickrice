@@ -14,18 +14,12 @@ def create_new_rice():
         print('Currently not supported!')
 
 def is_user_themes_enabled():
-    try:
-        # Read the current state of the User Themes extension
-        result = subprocess.run(
-            ["dconf", "read", "/org/gnome/shell/extensions/user-theme/enable"],
-            capture_output=True,
-            text=True,
-            check=True
-        )
-        return result.stdout.strip() == "true"
-    except subprocess.CalledProcessError as e:
-        print(f"An error occurred while checking the status: {e}")
-        return False
+    result = subprocess.run(
+        ["gnome-extensions", "info", "user-theme@gnome-shell-extensions.gcampax.github.com"],
+        capture_output=True,
+        text=True
+    )
+    return "State: ENABLED" in result.stdout
 
 def enable_user_themes():
     if is_user_themes_enabled():
@@ -35,10 +29,13 @@ def enable_user_themes():
     user_input = input("User Themes extension is not enabled. Do you want to enable it? (y/n): ").strip().lower()
     
     if user_input in ['yes', 'y']:
-        os.system("dconf write /org/gnome/shell/extensions/user-theme/enable true")
+        # Enable the User Themes extension using the gnome-extensions command, hopefully the user installed it previously.
+        subprocess.run(
+            ["gnome-extensions", "enable", "user-theme@gnome-shell-extensions.gcampax.github.com"]
+        )
         print("User Themes extension has been enabled.")
     else:
-        return
+        print("User Themes extension was not enabled.")
 
 def create_gnome_theme():
     theme_options = GnomeThemeOptions()
