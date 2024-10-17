@@ -1,7 +1,7 @@
 from desktop.detect_desktop import return_desktop
 from interactive.create.create_desktop import create_new_rice, read_theme
 from interactive.apply.apply_theme import list_available_themes, choose_gnome_theme, create_config_directory
-from desktop.extensions.check_system import return_distro
+from desktop.extensions.check_system import check_package_manager
 
 def banner():
 
@@ -25,7 +25,9 @@ def display_main():
 
     while True:
         desktop = return_desktop()
-        print(return_distro())
+        package_manager = check_package_manager()
+
+        print(f'Current Package Manager {package_manager}')
 
         print(f'You are currently on {desktop}. ')
         option = int(input('Choose your option:\n1 - gen rice\n2- apply rice'))
