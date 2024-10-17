@@ -32,7 +32,7 @@ def enable_user_themes():
         print("User Themes extension is already enabled.")
         return
 
-    user_input = input("User Themes extension is not enabled. Do you want to enable it? (yes/no): ").strip().lower()
+    user_input = input("User Themes extension is not enabled. Do you want to enable it? (y/n): ").strip().lower()
     
     if user_input in ['yes', 'y']:
         os.system("dconf write /org/gnome/shell/extensions/user-theme/enable true")
