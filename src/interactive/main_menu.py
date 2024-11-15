@@ -1,17 +1,16 @@
 from desktop.detect_desktop import return_desktop
 from interactive.create.create_desktop import create_new_rice, read_theme
-from interactive.apply.apply_theme import list_available_themes, choose_gnome_theme, create_config_directory
+from interactive.apply.apply_theme import list_available_themes, choose_gnome_theme, choose_cinnamon_theme, create_config_directory
 from interactive.download.download_themes import test_download
 from desktop.extensions.check_system import detect_package_manager, collect_necessary_packages
 from desktop.extensions.download_extensions import check_package_installed, install_necessary_packages
-
+import re
 
 package_manager, install_command = detect_package_manager()
 necessary_packages = collect_necessary_packages(package_manager)
 packages_needed = False 
 
 def banner():
-
     return '''
                     _     __  
          ___ ___ __(_)___/ /__
@@ -43,11 +42,15 @@ def display_main():
     else:
         print("All necessary packages are already installed.")
 
-
-
+    # Mapping of desktop patterns to theme application functions
+    desktop_theme_functions = {
+        r'gnome.*|ubuntu|mint': choose_gnome_theme,
+        r'cinnamon': choose_cinnamon_theme,
+        # Add other desktop patterns and their corresponding functions here
+    }
 
     while True:
-        desktop = return_desktop()
+        desktop = return_desktop().lower()
         print('====================================================')
         print(f'You are currently on {desktop}. ')
         print('====================================================')
@@ -57,13 +60,16 @@ def display_main():
         print('====================================================')
         option = int(input('Enter your choice: '))
 
-        if option==1:
+        if option == 1:
             create_new_rice()
         elif option == 2:
-            #This needs to be mapped according to the current desktop.
-            #For now only GNOME is supported so this is fine.
-            choose_gnome_theme()
+            for pattern, func in desktop_theme_functions.items():
+                if re.match(pattern, desktop):
+                    func()
+                    break
+            else:
+                print('Desktop not supported yet!')
         elif option == 3:
             test_download()
-
-
+        else:
+            print('Invalid option. Please try again.')
