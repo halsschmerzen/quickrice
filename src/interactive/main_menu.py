@@ -48,9 +48,14 @@ def display_main():
 
     while True:
         desktop = return_desktop()
-
+        print('====================================================')
         print(f'You are currently on {desktop}. ')
-        option = int(input('Choose your option:\n1 - gen rice\n2- apply rice'))
+        print('====================================================')
+        print('Choose your option:')
+        print('1 - Generate new rice')
+        print('2 - Apply existing rice')
+        print('====================================================')
+        option = int(input('Enter your choice: '))
 
         if option==1:
             create_new_rice()

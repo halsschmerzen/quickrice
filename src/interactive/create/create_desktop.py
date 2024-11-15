@@ -1,17 +1,23 @@
 from desktop.detect_desktop import return_desktop
-from desktop.desktops import GnomeTheme
 from interactive.create.desktop_options.gnome_theme import GnomeThemeOptions
 import os, json, subprocess
-
+import re
 config_dir = os.path.expanduser('~/.config/quickrice/rices')
 
 def create_new_rice():
-    current_desktop = return_desktop()
+    current_desktop = return_desktop().lower()
+    
+    available_desktops = {
+        r'gnome.*|ubuntu' : create_gnome_theme,
+    }
 
-    if current_desktop == 'gnome':
-        create_gnome_theme()
-    else:
-        print('Currently not supported!')
+    for pattern, method in available_desktops.items():
+        if re.match(pattern, current_desktop):
+            method()
+            break
+        else:
+            print('Desktop not supported yet! haha noob')
+        
 
 def is_user_themes_enabled():
     result = subprocess.run(
@@ -19,7 +25,7 @@ def is_user_themes_enabled():
         capture_output=True,
         text=True
     )
-    return "State: ENABLED" in result.stdout
+    return "State: ENABLED" in result.stdout or "State: ACTIVE" in result.stdout
 
 def enable_user_themes():
     if is_user_themes_enabled():
