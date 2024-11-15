@@ -54,6 +54,9 @@ class CinnamonTheme(DesktopTheme):
 
     def set_icon_theme(self, theme_name):
         os.system(f"gsettings set org.cinnamon.desktop.interface icon-theme {theme_name}")
+        
+    def set_shell_theme(self, theme_name):
+        os.system(f"gsettings set org.cinnamon.theme name {theme_name}")
 
     def set_cursor_theme(self, theme_name):
         os.system(f"gsettings set org.cinnamon.desktop.interface cursor-theme {theme_name}")
@@ -61,18 +64,11 @@ class CinnamonTheme(DesktopTheme):
     def set_font(self, font_name):
         os.system(f"gsettings set org.cinnamon.desktop.interface font-name '{font_name} 11'")
 
-    def set_color_scheme(self, scheme):
-        if scheme == "dark":
-            os.system("gsettings set org.cinnamon.desktop.interface color-scheme prefer-dark")
-        else:
-            os.system("gsettings set org.cinnamon.desktop.interface color-scheme prefer-light")
-
     def reset_to_default(self):
         self.gtk_theme = "Mint-Y"
         self.icon_theme = "Mint-Y"
         self.cursor_theme = "DMZ-White"
         self.font = "Cantarell"
-        self.color_scheme = "light"
         self.apply_theme()
 
 # GNOME subclass

@@ -94,8 +94,6 @@ def apply_cinnamon_theme(theme_data):
     selected_shell_theme = theme_data.get('shell_theme')
     selected_cursor_theme = theme_data.get('cursor_theme')
     selected_font = theme_data.get('font')
-    selected_color = theme_data.get('color_scheme')
-    selected_background = theme_data.get('background')
 
     cinnamon_theme = CinnamonTheme(
         selected_gtk_theme,
@@ -110,15 +108,11 @@ def apply_cinnamon_theme(theme_data):
     cinnamon_theme.set_icon_theme(selected_icon_theme)
     cinnamon_theme.set_shell_theme(selected_shell_theme)
     cinnamon_theme.set_cursor_theme(selected_cursor_theme)
-    cinnamon_theme.set_color_scheme(selected_color)
 
     if selected_font:
         cinnamon_theme.set_font(selected_font)
     else:
         cinnamon_theme.set_font('Cantarell')
-
-    if selected_background:
-        cinnamon_theme.set_wallpaper(selected_background, selected_color)
 
 def choose_gnome_theme():
     available_themes, desktop_dir = list_available_themes()

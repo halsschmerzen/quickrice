@@ -95,8 +95,7 @@ def create_cinnamon_theme(current_desktop):
     selected_shell_theme = theme_options.choose_from_list(shell_themes, "Shell")
     selected_cursor_theme = theme_options.choose_from_list(cursor_themes, "Cursor")
     selected_font = None
-    selected_color_scheme = 'dark'
-    selected_background = None
+
 
     font_input = str(input('Do you want to set a Font? [y/n]'))
 
@@ -104,14 +103,6 @@ def create_cinnamon_theme(current_desktop):
         font_value = str(input('Please enter the name of the font you want to apply: \n'))
         selected_font = font_value
 
-    color_input = str(input('Do you want the preferred color scheme to be light? [Default Value: Dark] [y/n]'))
-    if color_input == 'y':
-        selected_color_scheme = 'light'
-            
-    bg_input = str(input('Do you want to set a matching wallpaper? [y/n]'))
-    if bg_input == 'y':
-        background_path = str(input('Enter the path to the desired wallpaper: \n'))
-        selected_background = background_path
 
     selections = {
         "desktop" : "cinnamon",
@@ -120,8 +111,6 @@ def create_cinnamon_theme(current_desktop):
         "shell_theme": selected_shell_theme,
         "cursor_theme": selected_cursor_theme,
         "font": selected_font,
-        "color_scheme": selected_color_scheme,
-        "background": selected_background
     }
 
     desktop_dir = os.path.join(config_dir, "cinnamon")
