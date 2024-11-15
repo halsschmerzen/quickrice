@@ -12,6 +12,49 @@ def create_config_directory():
     if not os.path.exists(config_dir):
         os.makedirs(config_dir)
 
+def apply_theme_by_name(theme_name):
+    current_desktop = return_desktop().lower()
+
+    desktop_patterns = {
+        'gnome': [r'gnome.*', r'ubuntu', r'mint'],
+        'cinnamon': [r'cinnamon'],
+        # Add other desktop patterns and their corresponding functions here
+    }
+
+    desktop_dir = None
+    apply_theme_func = None
+
+    for desktop, patterns in desktop_patterns.items():
+        for pattern in patterns:
+            if re.match(pattern, current_desktop):
+                desktop_dir = os.path.join(config_dir, desktop)
+                apply_theme_func = globals().get(f'apply_{desktop}_theme')
+                break
+        if desktop_dir:
+            break
+    else:
+        print('Desktop not supported yet!')
+        return
+
+    if not desktop_dir or not os.path.exists(desktop_dir):
+        print('No themes directory found for your desktop environment.')
+        return
+
+    theme_file = os.path.join(desktop_dir, theme_name + '.json')
+    if not os.path.exists(theme_file):
+        print(f'Theme "{theme_name}" not found in {desktop_dir}.')
+        return
+
+    try:
+        with open(theme_file, 'r') as json_file:
+            theme_data = json.load(json_file)
+            if apply_theme_func:
+                apply_theme_func(theme_data)
+            else:
+                print('No function available to apply theme for your desktop environment.')
+    except json.JSONDecodeError:
+        print(f'Error decoding JSON in file: {theme_file}')
+
 def list_available_themes():
     themes_for_this_desktop = []
     current_desktop = return_desktop().lower()
