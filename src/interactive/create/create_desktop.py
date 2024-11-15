@@ -23,6 +23,28 @@ def create_new_rice():
     else:
         print('Desktop not supported yet!')
 
+def is_user_themes_enabled():
+    result = subprocess.run(
+        ["gnome-extensions", "info", "user-theme@gnome-shell-extensions.gcampax.github.com"],
+        capture_output=True,
+        text=True
+    )
+    return "State: ENABLED" in result.stdout or "State: ACTIVE" in result.stdout
+def enable_user_themes():
+    if is_user_themes_enabled():
+        print("User Themes extension is already enabled.")
+        return
+    user_input = input("User Themes extension is not enabled. Do you want to enable it? (y/n): ").strip().lower()
+    
+    if user_input in ['yes', 'y']:
+        # Enable the User Themes extension using the gnome-extensions command, hopefully the user installed it previously.
+        subprocess.run(
+            ["gnome-extensions", "enable", "user-theme@gnome-shell-extensions.gcampax.github.com"]
+        )
+        print("User Themes extension has been enabled.")
+    else:
+        print("User Themes extension was not enabled.")
+
 def create_gnome_theme(current_desktop):
     theme_options = GnomeThemeOptions()
 
