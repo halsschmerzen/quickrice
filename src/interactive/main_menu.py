@@ -11,7 +11,8 @@ necessary_packages = collect_necessary_packages(package_manager)
 packages_needed = False 
 
 def banner():
-    return '''
+    return r'''
+
                     _     __  
          ___ ___ __(_)___/ /__
         / _ `/ // / / __/  '_/
@@ -44,7 +45,7 @@ def display_main():
 
     # Mapping of desktop patterns to theme application functions
     desktop_theme_functions = {
-        r'gnome.*|ubuntu|mint': choose_gnome_theme,
+        r'gnome.*|ubuntu': choose_gnome_theme,
         r'cinnamon': choose_cinnamon_theme,
         # Add other desktop patterns and their corresponding functions here
     }
@@ -69,7 +70,5 @@ def display_main():
                     break
             else:
                 print('Desktop not supported yet!')
-        elif option == 3:
-            test_download()
         else:
             print('Invalid option. Please try again.')
