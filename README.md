@@ -1,4 +1,3 @@
-```markdown
 # QuickRice
 
 QuickRice is a simple and efficient command-line tool designed to help you manage and customize your desktop themes (rice) effortlessly. Whether you're looking to generate new themes, apply existing ones, or simply list all available options, QuickRice provides an intuitive interface to streamline your desktop customization experience.
@@ -123,5 +122,3 @@ If you encounter any issues or have questions, feel free to open an [issue](http
 
 - Inspired by various desktop customization tools.
 - Thanks to the open-source community for their invaluable resources and support.
-
-```
