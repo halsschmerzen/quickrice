@@ -52,7 +52,7 @@ install_quickrice() {
 
     # Copy all project files to the installation directory
     echo "Copying project files to $INSTALL_DIR..."
-    cp -r src/* "$INSTALL_DIR/"
+    cp -r quickrice/* "$INSTALL_DIR/"
 
     # Ensure the main.py script is executable
     echo "Setting executable permissions for main.py..."
