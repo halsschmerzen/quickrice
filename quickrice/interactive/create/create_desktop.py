@@ -161,13 +161,29 @@ def create_xfce_theme(current_desktop):
     selected_icon_theme = theme_options.choose_from_list(icon_themes, "Icon")
     selected_xfwm4_theme = theme_options.choose_from_list(xfwm4_themes, "XFWM4")
     selected_cursor_theme = theme_options.choose_from_list(cursor_themes, "Cursor")
+    selected_color_scheme = 'dark'
     selected_font = None
+    selected_background = None
     
     font_input = str(input('Do you want to set a Font? [y/n]'))
     
     if font_input == 'y':
         font_value = str(input('Please enter the name of the font you want to apply: \n'))
         selected_font = font_value
+        
+    color_input = str(input('Do you want the preferred color scheme to be light? [Default Value: Dark] [y/n]'))
+    
+    if color_input == 'y':
+        selected_color_scheme = 'light'
+        
+    bg_input = str(input('Do you want to set a matching wallpaper? [y/n]'))
+
+    if bg_input == 'y':
+        background_path = str(input('Enter the path to the desired wallpaper: \n'))
+        selected_background = background_path
+        
+        
+        
         
     selections = {
         "desktop" : "xfce",
@@ -176,6 +192,8 @@ def create_xfce_theme(current_desktop):
         "xfwm4_theme": selected_xfwm4_theme,
         "cursor_theme": selected_cursor_theme,
         "font": selected_font,
+        "color_scheme": selected_color_scheme,
+        "background": selected_background
     }
     
     desktop_dir = os.path.join(config_dir, "xfce")

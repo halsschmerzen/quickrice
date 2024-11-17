@@ -164,6 +164,8 @@ def apply_xfce_theme(theme_data):
     selected_xfwm4_theme = theme_data.get('xfwm4_theme')
     selected_cursor_theme = theme_data.get('cursor_theme')
     selected_font = theme_data.get('font')
+    selected_color = theme_data.get('color_scheme')
+    selected_background = theme_data.get('background')
     
     xfce_theme = XfceTheme(
         selected_gtk_theme,
@@ -177,12 +179,16 @@ def apply_xfce_theme(theme_data):
     xfce_theme.set_icon_theme(selected_icon_theme)
     xfce_theme.set_xfwm4_theme(selected_xfwm4_theme)
     xfce_theme.set_cursor_theme(selected_cursor_theme)
+    xfce_theme.set_color_scheme(selected_color)
     
     if selected_font:
         xfce_theme.set_font(selected_font)
     else:
         # Just keeping the font for now
         pass
+    
+    if selected_background:
+        xfce_theme.set_wallpaper(selected_background)
 
 def choose_theme():
     available_themes, desktop_dir = list_available_themes()
