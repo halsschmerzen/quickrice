@@ -71,6 +71,40 @@ class CinnamonTheme(DesktopTheme):
         self.font = "Cantarell"
         self.apply_theme()
 
+#XFCE subclass
+class XfceTheme(DesktopTheme):
+    def set_gtk_theme(self, theme_name):
+        os.system(f"xfconf-query -c xsettings -p /Net/ThemeName -s {theme_name}")
+
+    def set_icon_theme(self, theme_name):
+        os.system(f"xfconf-query -c xsettings -p /Net/IconThemeName -s {theme_name}")
+
+    def set_cursor_theme(self, theme_name):
+        os.system(f"xfconf-query -c xsettings -p /Gtk/CursorThemeName -s {theme_name}")
+
+    def set_font(self, font_name):
+        os.system(f"xfconf-query -c xsettings -p /Gtk/FontName -s '{font_name} 11'")
+        
+    def set_xfwm4_theme(self, theme_name):
+        os.system(f"xfconf-query -c xfwm4 -p /general/theme -s {theme_name}")
+
+    def set_color_scheme(self, scheme):
+        if scheme == "dark":
+            os.system("xfconf-query -c xsettings -p /Net/ThemeVariant -s dark")
+        else:
+            os.system("xfconf-query -c xsettings -p /Net/ThemeVariant -s light")
+
+    def set_wallpaper(self, wallpaper_path):
+        os.system(f"xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s {wallpaper_path}")
+
+    def reset_to_default(self):
+        self.gtk_theme = "Adwaita"
+        self.icon_theme = "Adwaita"
+        self.cursor_theme = "Adwaita"
+        self.font = "Cantarell"
+        self.color_scheme = "light"
+        self.apply_theme()
+
 # GNOME subclass
 class GnomeTheme(DesktopTheme):
     def set_gtk_theme(self, theme_name):

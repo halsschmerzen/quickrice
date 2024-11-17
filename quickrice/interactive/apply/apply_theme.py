@@ -4,7 +4,7 @@ import re
 from desktop.detect_desktop import return_desktop
 from interactive.create.create_desktop import read_theme
 from interactive.display_list import choose_from_list
-from desktop.desktops import GnomeTheme, CinnamonTheme
+from desktop.desktops import GnomeTheme, CinnamonTheme, XfceTheme
 
 config_dir = os.path.expanduser('~/.config/quickrice/rices')
 
@@ -16,8 +16,9 @@ def apply_theme_by_name(theme_name):
     current_desktop = return_desktop().lower()
 
     desktop_patterns = {
-        'gnome': [r'gnome.*', r'ubuntu', r'mint'],
+        'gnome': [r'gnome.*', r'ubuntu'],
         'cinnamon': [r'cinnamon'],
+        'xfce': [r'xfce'],
         # Add other desktop patterns and their corresponding functions here
     }
 
@@ -62,7 +63,7 @@ def list_available_themes():
     desktop_patterns = {
         'gnome': [r'gnome.*', r'ubuntu', r'mint'],
         'cinnamon': [r'cinnamon'],
-        # Add other desktop patterns here
+        'xfce': [r'xfce'],
     }
 
     desktop_dir = None
@@ -99,118 +100,61 @@ def list_available_themes():
                 print(f'Error decoding JSON in file: {filename}')
     return themes_for_this_desktop, desktop_dir
 
-def apply_gnome_theme(theme_data):
-    selected_gtk_theme = theme_data.get('gtk_theme')  
+def apply_theme(theme_data, theme_class):
+    selected_gtk_theme = theme_data.get('gtk_theme')
     selected_icon_theme = theme_data.get('icon_theme')
     selected_shell_theme = theme_data.get('shell_theme')
+    selected_xfwm4_theme = theme_data.get('xfwm4_theme')
     selected_cursor_theme = theme_data.get('cursor_theme')
     selected_font = theme_data.get('font')
     selected_color = theme_data.get('color_scheme')
     selected_background = theme_data.get('background')
 
-    gnome_theme = GnomeTheme(
+    theme = theme_class(
         selected_gtk_theme,
         selected_icon_theme,
         selected_cursor_theme,
-        None,
-        None
+        selected_font,
+        selected_color
     )
 
-    # Apply the selected themes using GnomeTheme methods
-    gnome_theme.set_gtk_theme(selected_gtk_theme)
-    gnome_theme.set_icon_theme(selected_icon_theme)
-    gnome_theme.set_shell_theme(selected_shell_theme)
-    gnome_theme.set_cursor_theme(selected_cursor_theme)
-    gnome_theme.set_color_scheme(selected_color)
+    # Apply the selected themes using the theme class methods
+    theme.set_gtk_theme(selected_gtk_theme)
+    theme.set_icon_theme(selected_icon_theme)
+    if hasattr(theme, 'set_shell_theme'):
+        theme.set_shell_theme(selected_shell_theme)
+    if hasattr(theme, 'set_xfwm4_theme'):
+        theme.set_xfwm4_theme(selected_xfwm4_theme)
+    theme.set_cursor_theme(selected_cursor_theme)
+    theme.set_color_scheme(selected_color)
 
     if selected_font:
-        gnome_theme.set_font(selected_font)
+        theme.set_font(selected_font)
     else:
-        gnome_theme.set_font('Cantarell')
+        theme.set_font('Cantarell')
 
     if selected_background:
-        gnome_theme.set_wallpaper(selected_background, selected_color)
+        theme.set_wallpaper(selected_background, selected_color)
+
+def choose_theme():
+    available_themes, desktop_dir = list_available_themes()
+    if not available_themes:
+        print('You have not created any themes yet!')
+        return
+
+    selected_theme_name = choose_from_list(available_themes)
+
+    if selected_theme_name is None:
+        print('No theme selected.')
+        return
+
+    apply_theme_by_name(selected_theme_name)
+
+def apply_gnome_theme(theme_data):
+    apply_theme(theme_data, GnomeTheme)
 
 def apply_cinnamon_theme(theme_data):
-    selected_gtk_theme = theme_data.get('gtk_theme')  
-    selected_icon_theme = theme_data.get('icon_theme')
-    selected_shell_theme = theme_data.get('shell_theme')
-    selected_cursor_theme = theme_data.get('cursor_theme')
-    selected_font = theme_data.get('font')
+    apply_theme(theme_data, CinnamonTheme)
 
-    cinnamon_theme = CinnamonTheme(
-        selected_gtk_theme,
-        selected_icon_theme,
-        selected_cursor_theme,
-        None,
-        None
-    )
-
-    # Apply the selected themes using CinnamonTheme methods
-    cinnamon_theme.set_gtk_theme(selected_gtk_theme)
-    cinnamon_theme.set_icon_theme(selected_icon_theme)
-    cinnamon_theme.set_shell_theme(selected_shell_theme)
-    cinnamon_theme.set_cursor_theme(selected_cursor_theme)
-
-    if selected_font:
-        cinnamon_theme.set_font(selected_font)
-    else:
-        cinnamon_theme.set_font('Cantarell')
-
-def choose_gnome_theme():
-    available_themes, desktop_dir = list_available_themes()
-    if not available_themes:
-        print('You have not created any themes yet!')
-        return
-
-    # Use the updated choose_from_list() method
-    selected_theme_name = choose_from_list(available_themes)
-
-    if selected_theme_name is None:
-        print('No theme selected.')
-        return
-
-    # Construct the path to the selected theme's JSON file
-    selected_theme_path = os.path.join(desktop_dir, selected_theme_name + '.json')
-
-    # Read the selected theme's values
-    try:
-        with open(selected_theme_path, 'r') as json_file:
-            theme_data = json.load(json_file)
-            apply_gnome_theme(theme_data)
-
-    except FileNotFoundError:
-        print(f'The selected theme file does not exist: {selected_theme_path}')
-    except json.JSONDecodeError:
-        print(f'Error decoding JSON in file: {selected_theme_path}')
-    except Exception as e:
-        print(f'An unexpected error occurred: {e}')
-
-def choose_cinnamon_theme():
-    available_themes, desktop_dir = list_available_themes()
-    if not available_themes:
-        print('You have not created any themes yet!')
-        return
-
-    # Use the updated choose_from_list() method
-    selected_theme_name = choose_from_list(available_themes)
-
-    if selected_theme_name is None:
-        print('No theme selected.')
-        return
-
-    # Construct the path to the selected theme's JSON file
-    selected_theme_path = os.path.join(desktop_dir, selected_theme_name + '.json')
-
-    # Read the selected theme's values
-    try:
-        with open(selected_theme_path, 'r') as json_file:
-            theme_data = json.load(json_file)
-            apply_cinnamon_theme(theme_data)
-
-    except FileNotFoundError:
-        print(f'The selected theme file does not exist: {selected_theme_path}')
-    except json.JSONDecodeError:
-        print(f'Error decoding JSON in file: {selected_theme_path}')
-    except Exception as e:
-        print(f'An unexpected error occurred: {e}')
+def apply_xfce_theme(theme_data):
+    apply_theme(theme_data, XfceTheme)

@@ -5,6 +5,7 @@ import re
 from desktop.detect_desktop import return_desktop
 from interactive.create.desktop_options.gnome_theme import GnomeThemeOptions
 from interactive.create.desktop_options.cinnamon_theme import CinnamonThemeOptions
+from interactive.create.desktop_options.xfce_theme import XfceThemeOptions
 
 config_dir = os.path.expanduser('~/.config/quickrice/rices')
 
@@ -14,6 +15,7 @@ def create_new_rice():
     available_desktops = {
         r'gnome.*|ubuntu' : create_gnome_theme,
         r'cinnamon' : create_cinnamon_theme,
+        r'xfce' : create_xfce_theme
     }
 
     for pattern, method in available_desktops.items():
@@ -138,6 +140,65 @@ def create_cinnamon_theme(current_desktop):
     desktop_dir = os.path.join(config_dir, "cinnamon")
     os.makedirs(desktop_dir, exist_ok=True)
 
+    while True:
+        theme_name = str(input('Enter the rice name: '))
+        
+        if os.path.exists(f'{desktop_dir}/{theme_name}.json'):
+            print('Theme with that name already exists!')
+        else:
+            write_to_json(selections, theme_name, desktop_dir)
+            break
+
+def create_xfce_theme(current_desktop):
+    theme_options = XfceThemeOptions()
+    
+    gtk_themes = theme_options.get_available_gtk_themes()
+    icon_themes = theme_options.get_available_icon_themes()
+    xfwm4_themes = theme_options.get_available_xfwm4_themes()
+    cursor_themes = theme_options.get_available_cursor_themes()
+    
+    selected_gtk_theme = theme_options.choose_from_list(gtk_themes, "GTK")
+    selected_icon_theme = theme_options.choose_from_list(icon_themes, "Icon")
+    selected_xfwm4_theme = theme_options.choose_from_list(xfwm4_themes, "XFWM4")
+    selected_cursor_theme = theme_options.choose_from_list(cursor_themes, "Cursor")
+    selected_color_scheme = 'dark'
+    selected_font = None
+    selected_background = None
+    
+    font_input = str(input('Do you want to set a Font? [y/n]'))
+    
+    if font_input == 'y':
+        font_value = str(input('Please enter the name of the font you want to apply: \n'))
+        selected_font = font_value
+        
+    color_input = str(input('Do you want the preferred color scheme to be light? [Default Value: Dark] [y/n]'))
+    
+    if color_input == 'y':
+        selected_color_scheme = 'light'
+        
+    bg_input = str(input('Do you want to set a matching wallpaper? [y/n]'))
+
+    if bg_input == 'y':
+        background_path = str(input('Enter the path to the desired wallpaper: \n'))
+        selected_background = background_path
+        
+        
+        
+        
+    selections = {
+        "desktop" : "xfce",
+        "gtk_theme": selected_gtk_theme,
+        "icon_theme": selected_icon_theme,
+        "xfwm4_theme": selected_xfwm4_theme,
+        "cursor_theme": selected_cursor_theme,
+        "font": selected_font,
+        "color_scheme": selected_color_scheme,
+        "background": selected_background
+    }
+    
+    desktop_dir = os.path.join(config_dir, "xfce")
+    os.makedirs(desktop_dir, exist_ok=True)
+    
     while True:
         theme_name = str(input('Enter the rice name: '))
         
