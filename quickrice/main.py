@@ -2,12 +2,12 @@
 
 import argparse
 import re
-from interactive.main_menu import display_main
-from interactive.create.create_desktop import create_new_rice
-from interactive.apply.apply_theme import apply_theme_by_name, list_available_themes
-from desktop.detect_desktop import return_desktop
-from desktop.extensions.check_system import detect_package_manager, collect_necessary_packages
-from desktop.extensions.download_extensions import check_package_installed, install_necessary_packages
+from quickrice.interactive.main_menu import display_main
+from quickrice.interactive.create.create_desktop import create_new_rice
+from quickrice.interactive.apply.apply_theme import apply_theme_by_name, list_available_themes
+from quickrice.desktop.detect_desktop import return_desktop
+from quickrice.desktop.extensions.check_system import detect_package_manager, collect_necessary_packages
+from quickrice.desktop.extensions.download_extensions import check_package_installed, install_necessary_packages
 
 def main():
     # Parse command-line arguments
