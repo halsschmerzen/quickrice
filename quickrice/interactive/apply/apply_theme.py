@@ -4,7 +4,7 @@ import re
 from desktop.detect_desktop import return_desktop
 from interactive.create.create_desktop import read_theme
 from interactive.display_list import choose_from_list
-from desktop.desktops import GnomeTheme, CinnamonTheme
+from desktop.desktops import GnomeTheme, CinnamonTheme, XfceTheme
 
 config_dir = os.path.expanduser('~/.config/quickrice/rices')
 
@@ -16,8 +16,9 @@ def apply_theme_by_name(theme_name):
     current_desktop = return_desktop().lower()
 
     desktop_patterns = {
-        'gnome': [r'gnome.*', r'ubuntu', r'mint'],
+        'gnome': [r'gnome.*', r'ubuntu'],
         'cinnamon': [r'cinnamon'],
+        'xfce': [r'xfce'],
         # Add other desktop patterns and their corresponding functions here
     }
 
@@ -62,7 +63,7 @@ def list_available_themes():
     desktop_patterns = {
         'gnome': [r'gnome.*', r'ubuntu', r'mint'],
         'cinnamon': [r'cinnamon'],
-        # Add other desktop patterns here
+        'xfce': [r'xfce'],
     }
 
     desktop_dir = None
@@ -156,6 +157,34 @@ def apply_cinnamon_theme(theme_data):
         cinnamon_theme.set_font(selected_font)
     else:
         cinnamon_theme.set_font('Cantarell')
+
+def apply_xfce_theme(theme_data):
+    selected_gtk_theme = theme_data.get('gtk_theme')
+    selected_icon_theme = theme_data.get('icon_theme')
+    selected_xfwm4_theme = theme_data.get('xfwm4_theme')
+    selected_cursor_theme = theme_data.get('cursor_theme')
+    selected_font = theme_data.get('font')
+    
+    xfce_theme = XfceTheme(
+        selected_gtk_theme,
+        selected_icon_theme,
+        selected_cursor_theme,
+        None,
+        None
+    )
+    
+    xfce_theme.set_gtk_theme(selected_gtk_theme)
+    xfce_theme.set_icon_theme(selected_icon_theme)
+    xfce_theme.set_xfwm4_theme(selected_xfwm4_theme)
+    xfce_theme.set_cursor_theme(selected_cursor_theme)
+    
+    if selected_font:
+        xfce_theme.set_font(selected_font)
+    else:
+        # Just keeping the font for now
+        pass     
+    
+    
 
 def choose_gnome_theme():
     available_themes, desktop_dir = list_available_themes()
