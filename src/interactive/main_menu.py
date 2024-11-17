@@ -1,7 +1,6 @@
 from desktop.detect_desktop import return_desktop
 from interactive.create.create_desktop import create_new_rice, read_theme
 from interactive.apply.apply_theme import list_available_themes, choose_gnome_theme, choose_cinnamon_theme, create_config_directory
-from interactive.download.download_themes import test_download
 from desktop.extensions.check_system import detect_package_manager, collect_necessary_packages
 from desktop.extensions.download_extensions import check_package_installed, install_necessary_packages
 import re
