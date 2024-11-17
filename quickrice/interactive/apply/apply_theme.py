@@ -182,64 +182,18 @@ def apply_xfce_theme(theme_data):
         xfce_theme.set_font(selected_font)
     else:
         # Just keeping the font for now
-        pass     
-    
-    
+        pass
 
-def choose_gnome_theme():
+def choose_theme():
     available_themes, desktop_dir = list_available_themes()
     if not available_themes:
         print('You have not created any themes yet!')
         return
 
-    # Use the updated choose_from_list() method
     selected_theme_name = choose_from_list(available_themes)
 
     if selected_theme_name is None:
         print('No theme selected.')
         return
 
-    # Construct the path to the selected theme's JSON file
-    selected_theme_path = os.path.join(desktop_dir, selected_theme_name + '.json')
-
-    # Read the selected theme's values
-    try:
-        with open(selected_theme_path, 'r') as json_file:
-            theme_data = json.load(json_file)
-            apply_gnome_theme(theme_data)
-
-    except FileNotFoundError:
-        print(f'The selected theme file does not exist: {selected_theme_path}')
-    except json.JSONDecodeError:
-        print(f'Error decoding JSON in file: {selected_theme_path}')
-    except Exception as e:
-        print(f'An unexpected error occurred: {e}')
-
-def choose_cinnamon_theme():
-    available_themes, desktop_dir = list_available_themes()
-    if not available_themes:
-        print('You have not created any themes yet!')
-        return
-
-    # Use the updated choose_from_list() method
-    selected_theme_name = choose_from_list(available_themes)
-
-    if selected_theme_name is None:
-        print('No theme selected.')
-        return
-
-    # Construct the path to the selected theme's JSON file
-    selected_theme_path = os.path.join(desktop_dir, selected_theme_name + '.json')
-
-    # Read the selected theme's values
-    try:
-        with open(selected_theme_path, 'r') as json_file:
-            theme_data = json.load(json_file)
-            apply_cinnamon_theme(theme_data)
-
-    except FileNotFoundError:
-        print(f'The selected theme file does not exist: {selected_theme_path}')
-    except json.JSONDecodeError:
-        print(f'Error decoding JSON in file: {selected_theme_path}')
-    except Exception as e:
-        print(f'An unexpected error occurred: {e}')
+    apply_theme_by_name(selected_theme_name)

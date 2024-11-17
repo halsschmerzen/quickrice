@@ -1,6 +1,6 @@
 from desktop.detect_desktop import return_desktop
 from interactive.create.create_desktop import create_new_rice, read_theme
-from interactive.apply.apply_theme import list_available_themes, choose_gnome_theme, choose_cinnamon_theme, create_config_directory
+from interactive.apply.apply_theme import list_available_themes, choose_theme, create_config_directory
 from desktop.extensions.check_system import detect_package_manager, collect_necessary_packages
 from desktop.extensions.download_extensions import check_package_installed, install_necessary_packages
 import re
@@ -43,9 +43,12 @@ def display_main():
         print("All necessary packages are already installed.")
 
     # Mapping of desktop patterns to theme application functions
+    # Yes this is stupid and I don't know what I was thinking when writing this
+    # But for now it works and I will keep it this way :P
     desktop_theme_functions = {
-        r'gnome.*|ubuntu': choose_gnome_theme,
-        r'cinnamon': choose_cinnamon_theme,
+        r'gnome.*|ubuntu': choose_theme,
+        r'cinnamon': choose_theme,
+        r'xfce': choose_theme,
         # Add other desktop patterns and their corresponding functions here
     }
 
