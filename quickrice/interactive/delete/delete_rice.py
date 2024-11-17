@@ -93,12 +93,16 @@ def curses_menu(stdscr, themes):
         elif key == curses.KEY_ENTER or key in [10, 13]:
             selected[current_row] = not selected[current_row]
         elif key == 27:  # ESC
-            stdscr.clear()
-            stdscr.addstr(h//2, w//2 - 20, "Are you sure you want to delete the selected themes? (y/n)")
-            stdscr.refresh()
-            confirm_key = stdscr.getch()
-            if confirm_key in [ord('y'), ord('Y')]:
-                return [theme for idx, theme in enumerate(themes) if selected[idx]]
+            if any(selected):
+                stdscr.clear()
+                stdscr.addstr(h//2, w//2 - 20, "Are you sure you want to delete the selected themens? [y/n]")
+                stdscr.refresh()
+                confirm_key = stdscr.getch()
+                
+                if confirm_key in [ord('y'), ord('Y')]:
+                    return [theme for idx, theme in enumerate(themes) if selected[idx]]
+                else:
+                    return[]
             else:
                 return []
 
