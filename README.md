@@ -16,21 +16,29 @@ QuickRice is a simple and efficient command-line tool designed to help you manag
 
 - **Python 3.6+**: Ensure you have Python installed. You can download it from the [official website](https://www.python.org/downloads/).
 
-### Using `pip`
+### Using `install.sh`
 
-QuickRice is available on PyPI, making installation straightforward.
+It is recommended to use the given install.sh file. As of November 2024 the AUR and pip is not maintained. 
 
-```bash
-pip install quickrice
-```
+Make sure the installation script is executable:
 
-### From GitHub
+   ```bash
+   chmod +x install.sh 
+   ```
 
-Alternatively, you can install QuickRice directly from the GitHub repository.
 
-```bash
-pip install git+https://github.com/halsschmerzen/quickrice.git
-```
+For a local installation (recommended) use:
+
+   ```bash
+   ./install.sh install --local
+   ```
+
+For a global installation use:
+
+   ```bash
+   ./install.sh install --global
+   ```
+
 
 ## Usage
 
