@@ -49,7 +49,18 @@ install_quickrice() {
     # Check if installation directory already exists
     if [ -d "$INSTALL_DIR" ]; then
         echo "QuickRice is already installed in $INSTALL_DIR."
-        exit 1
+        read -p "Do you want to reinstall QuickRice? (y/n): " REINSTALL
+        if [ "$REINSTALL" != "y" ]; then
+            echo "Installation aborted."
+            exit 1
+        fi
+        echo "Reinstalling QuickRice..."
+        # Remove the existing installation directory
+        if [ "$NEED_SUDO" = true ]; then
+            sudo rm -rf "$INSTALL_DIR"
+        else
+            rm -rf "$INSTALL_DIR"
+        fi
     fi
 
     # Create the installation directory
