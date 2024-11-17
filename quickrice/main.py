@@ -8,6 +8,7 @@ from interactive.apply.apply_theme import apply_theme_by_name, list_available_th
 from desktop.detect_desktop import return_desktop
 from desktop.extensions.check_system import detect_package_manager, collect_necessary_packages
 from desktop.extensions.download_extensions import check_package_installed, install_necessary_packages
+from interactive.delete.delete_rice import delete_theme_by_name
 
 def main():
     # Parse command-line arguments
@@ -19,12 +20,15 @@ def main():
 
     # 'apply' command
     parser_apply = subparsers.add_parser('apply', help='Apply an existing rice (theme)')
-    parser_apply.add_argument('theme', nargs='?', help='Name of the theme to apply')
+    parser_apply.add_argument('theme', nargs='+', help='Name of the theme to apply')
     
     # 'list' command
-    
     parser_list = subparsers.add_parser('list', help='List available themes')
-
+    
+    # 'delete' command
+    parser_delete = subparsers.add_parser('delete', help='Delete an existing rice (theme)')
+    parser_delete.add_argument('theme', nargs='+', help='Name of the theme to delete')
+    
     args = parser.parse_args()
 
     # Check for necessary packages
@@ -47,7 +51,8 @@ def main():
         create_new_rice()
     elif args.command == 'apply':
         if args.theme:
-            apply_theme_by_name(args.theme)
+            theme_name = ' '.join(args.theme)
+            apply_theme_by_name(theme_name)
         else:
             print('Please specify a theme name to apply.')
             parser_apply.print_help()
@@ -59,7 +64,13 @@ def main():
                 print(f'{idx}. {theme}')
         else:
             print('No themes found.')
-    
+    elif args.command == 'delete':
+        if args.theme:
+            theme_name = ' '.join(args.theme)
+            delete_theme_by_name(theme_name)
+        else:
+            print('Please specify a theme name to delete.')
+            parser_delete.print_help()
     else:
         display_main()
 

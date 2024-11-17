@@ -1,6 +1,7 @@
 from desktop.detect_desktop import return_desktop
 from interactive.create.create_desktop import create_new_rice, read_theme
 from interactive.apply.apply_theme import list_available_themes, choose_theme, create_config_directory
+from interactive.delete.delete_rice import delete_rice
 from desktop.extensions.check_system import detect_package_manager, collect_necessary_packages
 from desktop.extensions.download_extensions import check_package_installed, install_necessary_packages
 import re
@@ -60,6 +61,9 @@ def display_main():
         print('Choose your option:')
         print('1 - Generate new rice')
         print('2 - Apply existing rice')
+        print('3 - Download theme packages - NOT FULLY IMPLEMENTED')
+        print('4 - Delete existing rice')
+        print('5 - Exit')
         print('====================================================')
         option = int(input('Enter your choice: '))
 
@@ -72,5 +76,12 @@ def display_main():
                     break
             else:
                 print('Desktop not supported yet!')
+        elif option == 3:
+            print('Not fully implemented yet!')
+        elif option == 4:
+            delete_rice()
+        elif option == 5:
+            print('Exiting quickrice...')
+            break
         else:
             print('Invalid option. Please try again.')
