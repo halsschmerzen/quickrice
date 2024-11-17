@@ -182,9 +182,6 @@ def create_xfce_theme(current_desktop):
         background_path = str(input('Enter the path to the desired wallpaper: \n'))
         selected_background = background_path
         
-        
-        
-        
     selections = {
         "desktop" : "xfce",
         "gtk_theme": selected_gtk_theme,
