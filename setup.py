@@ -9,7 +9,7 @@ long_description = (HERE / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="quickrice",  
-    version="1.0.2",  
+    version="1.0.3",  
     description="A simple CLI tool to manage your desktop themes.",
     long_description=long_description,
     long_description_content_type="text/markdown",
