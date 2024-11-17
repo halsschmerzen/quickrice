@@ -1,4 +1,4 @@
-from quickrice.desktop.extensions.check_system import detect_package_manager
+from desktop.extensions.check_system import detect_package_manager
 import subprocess
 
 def check_package_installed(package, manager):
