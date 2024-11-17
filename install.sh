@@ -30,6 +30,12 @@ install_quickrice() {
         SYMLINK_DIR="/usr/local/bin"
         SYMLINK_PATH="$SYMLINK_DIR/quickrice"
         NEED_SUDO=true
+
+        # Check if the user has sudo privileges
+        if ! sudo -v >/dev/null 2>&1; then
+            echo "Error: Global installation requires sudo privileges."
+            exit 1
+        fi
     elif [ "$INSTALL_TYPE" == "--local" ]; then
         INSTALL_DIR="$HOME/.quickrice"
         SYMLINK_DIR="$HOME/.local/bin"
@@ -48,25 +54,41 @@ install_quickrice() {
 
     # Create the installation directory
     echo "Creating installation directory at $INSTALL_DIR..."
-    mkdir -p "$INSTALL_DIR"
+    if [ "$NEED_SUDO" = true ]; then
+        sudo mkdir -p "$INSTALL_DIR"
+    else
+        mkdir -p "$INSTALL_DIR"
+    fi
 
     # Copy all project files to the installation directory
     echo "Copying project files to $INSTALL_DIR..."
-    cp -r quickrice/* "$INSTALL_DIR/"
+    if [ "$NEED_SUDO" = true ]; then
+        sudo cp -r quickrice/* "$INSTALL_DIR/"
+    else
+        cp -r quickrice/* "$INSTALL_DIR/"
+    fi
 
     # Ensure the main.py script is executable
     echo "Setting executable permissions for main.py..."
-    chmod +x "$INSTALL_DIR/main.py"
+    if [ "$NEED_SUDO" = true ]; then
+        sudo chmod +x "$INSTALL_DIR/main.py"
+    else
+        chmod +x "$INSTALL_DIR/main.py"
+    fi
 
     # Create the symlink
     echo "Creating symlink at $SYMLINK_PATH -> $INSTALL_DIR/main.py..."
-    if [ "$INSTALL_TYPE" == "--global" ]; then
-        if [ "$(id -u)" -ne 0 ]; then
-            echo "Global installation requires sudo privileges."
-            sudo ln -s "$INSTALL_DIR/main.py" "$SYMLINK_PATH"
+    if [ -L "$SYMLINK_PATH" ]; then
+        echo "Symlink $SYMLINK_PATH already exists. Removing it..."
+        if [ "$NEED_SUDO" = true ]; then
+            sudo rm "$SYMLINK_PATH"
         else
-            ln -s "$INSTALL_DIR/main.py" "$SYMLINK_PATH"
+            rm "$SYMLINK_PATH"
         fi
+    fi
+
+    if [ "$INSTALL_TYPE" == "--global" ]; then
+        sudo ln -s "$INSTALL_DIR/main.py" "$SYMLINK_PATH"
     else
         # Create ~/.local/bin if it doesn't exist
         mkdir -p "$SYMLINK_DIR"

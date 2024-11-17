@@ -33,10 +33,10 @@ For a local installation (recommended) use:
    ./install.sh install --local
    ```
 
-For a global installation use:
+For a global installation (needs sudo privilege) use:
 
    ```bash
-   ./install.sh install --global
+   sudo ./install.sh install --global
    ```
 
 
