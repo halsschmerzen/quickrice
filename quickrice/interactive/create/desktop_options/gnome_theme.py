@@ -1,5 +1,5 @@
 import os
-from quickrice.interactive.create.get_files import ThemeOptions
+from interactive.create.get_files import ThemeOptions
 
 class GnomeThemeOptions(ThemeOptions):
     def __init__(self):
