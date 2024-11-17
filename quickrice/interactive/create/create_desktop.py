@@ -2,9 +2,9 @@ import os
 import json
 import subprocess
 import re
-from desktop.detect_desktop import return_desktop
-from interactive.create.desktop_options.gnome_theme import GnomeThemeOptions
-from interactive.create.desktop_options.cinnamon_theme import CinnamonThemeOptions
+from quickrice.desktop.detect_desktop import return_desktop
+from quickrice.interactive.create.desktop_options.gnome_theme import GnomeThemeOptions
+from quickrice.interactive.create.desktop_options.cinnamon_theme import CinnamonThemeOptions
 
 config_dir = os.path.expanduser('~/.config/quickrice/rices')
 

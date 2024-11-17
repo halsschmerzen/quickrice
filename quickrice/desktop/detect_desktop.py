@@ -1,5 +1,5 @@
 import os
-from desktop.desktops import GnomeTheme, CinnamonTheme
+from quickrice.desktop.desktops import GnomeTheme, CinnamonTheme
 
 def return_desktop():
 
