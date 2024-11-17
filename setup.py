@@ -9,12 +9,13 @@ long_description = (HERE / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="quickrice",  
-    version="1.0.0",  
+    version="1.0.3",  
     description="A simple CLI tool to manage your desktop themes.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/halsschmerzen/quickrice",  
     author="halsschmerzen",  
+    author_email="bastiansteampl@gmail.com",
     license="MIT",
     classifiers=[
         "License :: OSI Approved :: MIT License",
@@ -23,10 +24,6 @@ setup(
     ],
     packages=find_packages(),
     python_requires=">=3.6",
-    install_requires=[
-        
-        
-    ],
     entry_points={
         "console_scripts": [
             "quickrice=quickrice.main:main",
