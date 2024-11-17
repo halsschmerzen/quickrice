@@ -100,95 +100,41 @@ def list_available_themes():
                 print(f'Error decoding JSON in file: {filename}')
     return themes_for_this_desktop, desktop_dir
 
-def apply_gnome_theme(theme_data):
-    selected_gtk_theme = theme_data.get('gtk_theme')  
-    selected_icon_theme = theme_data.get('icon_theme')
-    selected_shell_theme = theme_data.get('shell_theme')
-    selected_cursor_theme = theme_data.get('cursor_theme')
-    selected_font = theme_data.get('font')
-    selected_color = theme_data.get('color_scheme')
-    selected_background = theme_data.get('background')
-
-    gnome_theme = GnomeTheme(
-        selected_gtk_theme,
-        selected_icon_theme,
-        selected_cursor_theme,
-        None,
-        None
-    )
-
-    # Apply the selected themes using GnomeTheme methods
-    gnome_theme.set_gtk_theme(selected_gtk_theme)
-    gnome_theme.set_icon_theme(selected_icon_theme)
-    gnome_theme.set_shell_theme(selected_shell_theme)
-    gnome_theme.set_cursor_theme(selected_cursor_theme)
-    gnome_theme.set_color_scheme(selected_color)
-
-    if selected_font:
-        gnome_theme.set_font(selected_font)
-    else:
-        gnome_theme.set_font('Cantarell')
-
-    if selected_background:
-        gnome_theme.set_wallpaper(selected_background, selected_color)
-
-def apply_cinnamon_theme(theme_data):
-    selected_gtk_theme = theme_data.get('gtk_theme')  
-    selected_icon_theme = theme_data.get('icon_theme')
-    selected_shell_theme = theme_data.get('shell_theme')
-    selected_cursor_theme = theme_data.get('cursor_theme')
-    selected_font = theme_data.get('font')
-
-    cinnamon_theme = CinnamonTheme(
-        selected_gtk_theme,
-        selected_icon_theme,
-        selected_cursor_theme,
-        None,
-        None
-    )
-
-    # Apply the selected themes using CinnamonTheme methods
-    cinnamon_theme.set_gtk_theme(selected_gtk_theme)
-    cinnamon_theme.set_icon_theme(selected_icon_theme)
-    cinnamon_theme.set_shell_theme(selected_shell_theme)
-    cinnamon_theme.set_cursor_theme(selected_cursor_theme)
-
-    if selected_font:
-        cinnamon_theme.set_font(selected_font)
-    else:
-        cinnamon_theme.set_font('Cantarell')
-
-def apply_xfce_theme(theme_data):
+def apply_theme(theme_data, theme_class):
     selected_gtk_theme = theme_data.get('gtk_theme')
     selected_icon_theme = theme_data.get('icon_theme')
+    selected_shell_theme = theme_data.get('shell_theme')
     selected_xfwm4_theme = theme_data.get('xfwm4_theme')
     selected_cursor_theme = theme_data.get('cursor_theme')
     selected_font = theme_data.get('font')
     selected_color = theme_data.get('color_scheme')
     selected_background = theme_data.get('background')
-    
-    xfce_theme = XfceTheme(
+
+    theme = theme_class(
         selected_gtk_theme,
         selected_icon_theme,
         selected_cursor_theme,
-        None,
-        None
+        selected_font,
+        selected_color
     )
-    
-    xfce_theme.set_gtk_theme(selected_gtk_theme)
-    xfce_theme.set_icon_theme(selected_icon_theme)
-    xfce_theme.set_xfwm4_theme(selected_xfwm4_theme)
-    xfce_theme.set_cursor_theme(selected_cursor_theme)
-    xfce_theme.set_color_scheme(selected_color)
-    
+
+    # Apply the selected themes using the theme class methods
+    theme.set_gtk_theme(selected_gtk_theme)
+    theme.set_icon_theme(selected_icon_theme)
+    if hasattr(theme, 'set_shell_theme'):
+        theme.set_shell_theme(selected_shell_theme)
+    if hasattr(theme, 'set_xfwm4_theme'):
+        theme.set_xfwm4_theme(selected_xfwm4_theme)
+    theme.set_cursor_theme(selected_cursor_theme)
+    theme.set_color_scheme(selected_color)
+
     if selected_font:
-        xfce_theme.set_font(selected_font)
+        theme.set_font(selected_font)
     else:
-        # Just keeping the font for now
-        pass
-    
+        theme.set_font('Cantarell')
+
     if selected_background:
-        xfce_theme.set_wallpaper(selected_background)
+        theme.set_wallpaper(selected_background, selected_color)
 
 def choose_theme():
     available_themes, desktop_dir = list_available_themes()
@@ -203,3 +149,12 @@ def choose_theme():
         return
 
     apply_theme_by_name(selected_theme_name)
+
+def apply_gnome_theme(theme_data):
+    apply_theme(theme_data, GnomeTheme)
+
+def apply_cinnamon_theme(theme_data):
+    apply_theme(theme_data, CinnamonTheme)
+
+def apply_xfce_theme(theme_data):
+    apply_theme(theme_data, XfceTheme)
