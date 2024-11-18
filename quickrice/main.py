@@ -57,7 +57,7 @@ def main():
             print('Please specify a theme name to apply.')
             parser_apply.print_help()
     elif args.command == 'list':
-        themes, _ = list_available_themes()
+        themes = list_available_themes()
         if themes:
             print('Available Themes:')
             for idx, theme in enumerate(themes, start=1):

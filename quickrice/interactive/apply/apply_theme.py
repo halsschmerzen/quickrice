@@ -77,12 +77,12 @@ def list_available_themes():
         break
     else:
         print('Desktop not supported yet!')
-        return themes_for_this_desktop, None
+        return themes_for_this_desktop
 
     # Check if the directory is empty
     if not os.path.exists(desktop_dir) or not os.listdir(desktop_dir):
         print('You haven\'t created any themes yet!')
-        return themes_for_this_desktop, None
+        return themes_for_this_desktop
 
     for filename in os.listdir(desktop_dir):
         if filename.endswith('.json'):
@@ -98,7 +98,7 @@ def list_available_themes():
                                 break
             except json.JSONDecodeError:
                 print(f'Error decoding JSON in file: {filename}')
-    return themes_for_this_desktop, desktop_dir
+    return themes_for_this_desktop
 
 def apply_theme(theme_data, theme_class):
     selected_gtk_theme = theme_data.get('gtk_theme')
@@ -137,7 +137,7 @@ def apply_theme(theme_data, theme_class):
         theme.set_wallpaper(selected_background, selected_color)
 
 def choose_theme():
-    available_themes, desktop_dir = list_available_themes()
+    available_themes = list_available_themes()
     if not available_themes:
         print('You have not created any themes yet!')
         return

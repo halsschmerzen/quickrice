@@ -11,11 +11,8 @@ folders = {
         "cinnamon": [r'cinnamon'],
         "xfce": [r'xfce']
     }
-def list_themes():
-    
-    
+def list_themes(): 
     themes = []
-    
     if current_desktop in folders:
         for pattern in folders[current_desktop]:
             for root, dirs, files in os.walk(config_dir):
